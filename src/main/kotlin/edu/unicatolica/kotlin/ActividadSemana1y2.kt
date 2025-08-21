@@ -1,27 +1,48 @@
-// ActivityOne.kt
 package edu.unicatolica.kotlin
 
 fun main() {
-    /*
- Actividad Semana 2: Calculadora de estadísticas de calificaciones
+    print("Ingrese el notas del estudiante: ")
+    val n = readln().toInt()
 
- Enunciado:
- El programa debe solicitar al usuario la cantidad de estudiantes (N) y, a continuación,
- leer la nota de cada uno (valor entre 0.0 y 5.0). Con esta información se debe calcular y mostrar:
+    var suma = 0.0
 
- 1. El promedio general del grupo.
- 2. La cantidad de estudiantes aprobados (nota >= 3.0) y reprobados (nota < 3.0).
- 3. La nota más alta y la nota más baja obtenida.
- 4. Una clasificación del promedio general según la siguiente escala:
-    - Promedio >= 4.5  → "Excelente"
-    - Promedio >= 4.0  → "Muy bien"
-    - Promedio >= 3.0  → "Aprobado"
-    - Promedio < 3.0   → "Reprobado"
 
- Requisitos:
- - Validar que cada nota ingresada esté en el rango permitido (0.0 a 5.0).
- - Si el usuario ingresa un valor inválido, volver a solicitar la nota.
- - Usar condicionales para la clasificación y bucles para recorrer las notas.
- */
+    var notaMax = Double.NEGATIVE_INFINITY
+    var notaMin = Double.POSITIVE_INFINITY
 
+    for (i in 1..n) {
+        val nota = leerNotaValida(i)
+        suma += nota
+
+        if (nota > notaMax) notaMax = nota
+        if (nota < notaMin) notaMin = nota
+    }
+
+    val promedio = suma / n
+    val clasificacion = when {
+        promedio >= 4.5 -> "Excelente"
+        promedio >= 4.0 -> "Muy bien"
+        promedio >= 3.0 -> "Aprobado"
+        else            -> "Reprobado"
+    }
+
+    println("\n--- Resultados ---")
+    println("Promedio: ${"%.2f".format(promedio)}")
+    println("Nota máxima: ${"%.2f".format(notaMax)}")
+    println("Nota mínima: ${"%.2f".format(notaMin)}")
+    println("Clasificación del promedio: $clasificacion")
+}
+
+private fun leerNotaValida(indice: Int): Double {
+    while (true) {
+        print("Nota $indice del estudiante (0.0 a 5.0): ")
+        val entrada = readln()
+        val valor = entrada.toDoubleOrNull()
+
+        if (valor != null && valor in 0.0..5.0) {
+            return valor
+        } else {
+            println("Entrada inválida. Intente de nuevo.")
+        }
+    }
 }
